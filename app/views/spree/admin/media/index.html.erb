@@ -1,0 +1,29 @@
+<% content_for :page_title do %>
+  <%= Spree.t(:listing_images) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <li id="new_product_link">
+    <%= button_link_to Spree.t(:upload_images), "http://www.google.com" %>
+  </li>
+<% end if can?(:create, Spree::Product) %>
+
+<div class="images">
+  <% @images.each do |image| %>
+    <div class="image">
+    	<%= link_to image_tag(image.attachment.url(:product)), image %>
+    	<div class="meta">
+    	  <h3 class="name"><%= image.attachment_file_name %></h3>         
+    	</div>
+
+    	<% if image.viewable %>
+    	  <div class="viewable-info">
+	    	  <div class="viewable-type">Assigned to <%= image.viewable.class %></div>
+	    	  <div class="viewable-name"><%= link_to image.viewable.name, image.viewable.product %></div>
+	    	</div>
+	    <% end %>
+
+	    <div class="admin-buttons"></div>
+    </div>
+  <% end %>
+</div>
