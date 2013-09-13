@@ -1,6 +1,9 @@
 //= require admin/spree_backend
 //= require jquery.imagesloaded
 //= require jquery.wookmark
+//= require jquery.fileupload
+//= require jquery.color
+//= require jquery.Jcrop
 
 $(document).ready(function(){
 	$('.images').imagesLoaded(function() {
@@ -13,5 +16,36 @@ $(document).ready(function(){
 		  itemWidth: 220 // Optional, the width of a grid item
 		});
 	});
+
+  $progressBar = $('.upload-progress .bar')
+  $('#media-upload').fileupload({
+    dataType: 'json',
+    add: function (e, data) {
+      $progressBar.css('width','0%');
+      $('.page-actions #upload-images').addClass('uploading');
+      data.submit();
+    },
+    done: function (e, data) {
+      $('.page-actions #upload-images').removeClass('uploading');
+    },
+    progressall: function (e, data) {
+      var progress = parseInt(data.loaded / data.total * 100, 10);
+      $progressBar.css('width',progress+'%');
+    }
+  });
+
+  $('.images').on('click', '.toolbar .delete', function(event){
+    $.ajax({
+      url: $(event.currentTarget).attr('data-path'),
+      type: 'DELETE',
+      success: function(result) {
+        $(event.currentTarget).parents('.image').remove()
+        $('.images').trigger('refreshWookmark');
+      }
+    });
+
+    return false;
+  });
+
 });
 

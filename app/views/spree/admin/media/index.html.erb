@@ -3,17 +3,23 @@
 <% end %>
 
 <% content_for :page_actions do %>
-  <li id="new_product_link">
-    <%= button_link_to Spree.t(:upload_images), "http://www.google.com" %>
+  <li id="upload-images">
+    <input id="media-upload" type="file" name="image[attachment]" data-url="<%= api_images_path %>" multiple>
+    <div class="upload-progress">
+      <div class="bar" style="width: 0%;"></div>
+    </div>
   </li>
 <% end if can?(:create, Spree::Product) %>
 
 <div class="images">
   <% @images.each do |image| %>
     <div class="image">
-    	<%= link_to image_tag(image.attachment.url(:product)), image %>
+      <div class="toolbar">
+        <a href="#" class="button delete" data-path="<%= api_image_path(image) %>">&times;</a>
+      </div>
+    	<%= link_to image_tag(image.attachment.url(:large)), edit_admin_medium_path(image) %>
     	<div class="meta">
-    	  <h3 class="name"><%= image.attachment_file_name %></h3>         
+    	  <h3 class="name"><%= link_to image.attachment_file_name, edit_admin_medium_path(image) %></h3>         
     	</div>
 
     	<% if image.viewable %>
