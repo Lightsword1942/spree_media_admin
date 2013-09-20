@@ -56,6 +56,7 @@ module Spree
     end
 
     def should_crop?
+      return false if crop_w.nil? or crop_h.nil?
       crop_w > 0 and crop_h > 0
     end
 
