@@ -10,7 +10,7 @@
 </div>
 
 <script>
-  var imagePreviewWidth = $('.edit-image img').width()
+  var imagePreviewWidth = $('.edit-image img').width();
   var ratio = <%= @image.file_geometry(:original).width %> / imagePreviewWidth;
   console.log("ratio is "+ratio);
 
@@ -26,16 +26,18 @@
 
   jQuery(function($) {
 
-    var crop_x = <%= @image.crop_x %> / ratio;
-    var crop_y = <%= @image.crop_y %> / ratio;
-    var crop_w = <%= @image.crop_w %> / ratio;
-    var crop_h = <%= @image.crop_h %> / ratio;
-
+    var crop_x = <%= @image.crop_x or 0 %> / ratio;
+    var crop_y = <%= @image.crop_y or 0%> / ratio;
+    var crop_w = <%= @image.crop_w or @image.file_geometry(:original).width %> / ratio;
+    var crop_h = <%= @image.crop_h or @image.file_geometry(:original).height %> / ratio;
 
     $('.edit-image img').Jcrop({
       onChange: update_crop,
-      onSelect: update_crop,
-      setSelect: (crop_w != 0 && crop_h != 0) ? [crop_x, crop_y, crop_x + crop_w, crop_y + crop_h] : null
+      onSelect: update_crop
+    }, function(){
+      if (crop_w > 0 && crop_h > 0) {
+        this.setSelect([crop_x, crop_y, crop_x + crop_w, crop_y + crop_h]);
+      }
     });
   });
 </script>
