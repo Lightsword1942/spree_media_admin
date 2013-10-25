@@ -6,6 +6,15 @@
 //= require jquery.Jcrop
 
 $(document).ready(function(){
+
+  if (Spree.api_key) {
+    $.ajaxSetup({
+      beforeSend: function (xhr) {
+         xhr.setRequestHeader("X-Spree-Token", Spree.api_key);
+      }
+    });
+  }
+
 	$('.images').imagesLoaded(function() {
 		$(".images .image").wookmark({
 		  // Prepare layout options.
