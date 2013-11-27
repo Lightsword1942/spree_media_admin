@@ -15,8 +15,14 @@ module Spree
 
         if params[:viewable_type] and params[:viewable_id]
           viewable_class = Object.const_get(params[:viewable_type])
-          @image.viewable = viewable_class.find(params[:viewable_id].to_i)
-          @image.save
+          viewable = viewable_class.find(params[:viewable_id].to_i)
+
+          if viewable.respond_to?(:images)
+            viewable.images << @image
+          else
+            @image.viewable = viewable
+            @image.save
+          end
         end
         respond_with(@image, :status => 201, :default_template => :show)
       end
