@@ -17,12 +17,15 @@ module Spree
           viewable_class = Object.const_get(params[:viewable_type])
           viewable = viewable_class.find(params[:viewable_id].to_i)
 
-          if viewable.respond_to?(:images)
-            viewable.images << @image
-          else
-            @image.viewable = viewable
-            @image.save
-          end
+          #if viewable.respond_to?(:images)
+          #  viewable.images << @image
+          #else
+          #  @image.viewable = viewable
+          #  @image.save
+          #end
+
+          asset_assignment = AssetAssignment.create(:viewable => viewable, :asset => @image)
+          @image.save
         end
         respond_with(@image, :status => 201, :default_template => :show)
       end
