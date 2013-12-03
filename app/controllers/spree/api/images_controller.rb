@@ -10,19 +10,11 @@ module Spree
 
       def create
         authorize! :create, Image
-        Rails.logger.info "receiving image with params #{params}"
         @image = Image.create(params[:image])
 
         if params[:viewable_type] and params[:viewable_id]
           viewable_class = Object.const_get(params[:viewable_type])
           viewable = viewable_class.find(params[:viewable_id].to_i)
-
-          #if viewable.respond_to?(:images)
-          #  viewable.images << @image
-          #else
-          #  @image.viewable = viewable
-          #  @image.save
-          #end
 
           asset_assignment = AssetAssignment.create(:viewable => viewable, :asset => @image)
           @image.save
