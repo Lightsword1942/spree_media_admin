@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_media_admin'
-  s.version     = '2.0.4'
+  s.version     = '2.0.5'
   s.summary     = 'Spree Media Admin'
   s.description = 'Spree media and images administration'
   s.required_ruby_version = '>= 1.9.3'
