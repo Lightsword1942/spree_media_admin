@@ -8,12 +8,19 @@ module Spree
         respond_with(@image)
       end
 
+      def class_from_string(str)
+        str.split('::').inject(Object) do |mod, class_name|
+          Rails.logger.info "module is #{mod.to_s} and class name is #{class_name}"
+          mod.const_get(class_name)
+        end
+      end
+
       def create
         authorize! :create, Image
         @image = Image.create(params[:image])
 
         if params[:viewable_type] and params[:viewable_id]
-          viewable_class = Object.const_get(params[:viewable_type])
+          viewable_class = class_from_string(params[:viewable_type])
           viewable = viewable_class.find(params[:viewable_id].to_i)
 
           asset_assignment = AssetAssignment.create(:viewable => viewable, :asset => @image)
