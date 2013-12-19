@@ -14,6 +14,8 @@ module Spree
                       convert_options: { all: '-strip -auto-orient' },
                       processors: [:cropper]
 
+    before_post_process :thumbnailable?
+
     # save the w,h of the original image (from which others can be calculated)
     # we need to look at the write-queue for images which have not been saved yet
     after_post_process :find_dimensions
@@ -33,12 +35,14 @@ module Spree
     end
 
     def find_dimensions
-      temporary = attachment.queued_for_write[:original]
-      filename = temporary.path unless temporary.nil?
-      filename = attachment.path if filename.blank?
-      geometry = Paperclip::Geometry.from_file(filename)
-      self.attachment_width  = geometry.width
-      self.attachment_height = geometry.height
+      if thumbnailable?
+        temporary = attachment.queued_for_write[:original]
+        filename = temporary.path unless temporary.nil?
+        filename = attachment.path if filename.blank?
+        geometry = Paperclip::Geometry.from_file(filename)
+        self.attachment_width  = geometry.width
+        self.attachment_height = geometry.height
+      end
     end
 
     # if there are errors from the plugin, then add a more meaningful message
@@ -64,5 +68,10 @@ module Spree
       @geometry ||= {}
       @geometry[style] ||= Paperclip::Geometry.from_file(attachment.path(style))
     end
+
+    def thumbnailable?
+      return false unless attachment.content_type
+      ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/x-png', 'image/jpg'].include?(attachment.content_type)
+    end 
   end
 end
