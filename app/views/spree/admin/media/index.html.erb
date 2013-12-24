@@ -14,3 +14,7 @@
 <div class="images">
   <%= render :partial => 'image_list', :locals => {:images => @images} %>
 </div>
+
+<div class="pagination-wrapper">
+  <%= paginate @images %>
+</div>
