@@ -1,0 +1,25 @@
+<% images.each do |image| %>
+  <div class="image" data-id=<%= image.id %> data-small-url="<%= image.attachment.url(:small) %>" >
+    <div class="toolbar">
+      <%= link_to "Edit", edit_admin_medium_path(image), :class => "button edit" %>
+      <a href="#" class="button delete" data-path="<%= api_image_path(image) %>">&times;</a>
+    </div>
+    <%= link_to image_tag(image.attachment.url(:large)), edit_admin_medium_path(image) %>
+    <div class="meta">
+      <div class="viewable-type">Image Url</div>
+      <h3 class="name">
+        <%= link_to attachment_url(image.attachment, :original), 
+                    image.attachment.url(:original) %>
+      </h3>         
+    </div>
+
+    <% if image.viewable %>
+      <div class="viewable-info">
+        <div class="viewable-type">Assigned to <%= image.viewable.class %></div>
+        <div class="viewable-name"><%= link_to image.viewable.name, image.viewable.product %></div>
+      </div>
+    <% end %>
+
+    <div class="admin-buttons"></div>
+  </div>
+<% end %>

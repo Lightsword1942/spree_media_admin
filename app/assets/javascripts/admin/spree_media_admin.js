@@ -4,6 +4,7 @@
 //= require jquery.fileupload
 //= require jquery.color
 //= require jquery.Jcrop
+//= require admin/gallery_popup
 
 $(document).ready(function(){
 

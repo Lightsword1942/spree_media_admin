@@ -3,10 +3,13 @@ module Spree
   module Admin
     class MediaController < Spree::Admin::BaseController
       #todo, add rss feed of information that is happening
+      respond_to :js
 
       def index
       	@wrapper_class = "image-gallery"
-        @images = Image.all
+        @images = Image.page(params[:page] || 1)
+                       .per(params[:per_page] || 15)
+                       .where("attachment_file_name like ?", "%#{params[:query]}%")
       end
 
       def edit

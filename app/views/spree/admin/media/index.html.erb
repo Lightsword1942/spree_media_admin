@@ -12,25 +12,5 @@
 <% end if can?(:create, Spree::Product) %>
 
 <div class="images">
-  <% @images.each do |image| %>
-    <div class="image">
-      <div class="toolbar">
-        <%= link_to "Edit", edit_admin_medium_path(image), :class => "button edit" %>
-        <a href="#" class="button delete" data-path="<%= api_image_path(image) %>">&times;</a>
-      </div>
-    	<%= link_to image_tag(image.attachment.url(:large)), edit_admin_medium_path(image) %>
-    	<div class="meta">
-    	  <h3 class="name"><%= link_to image.attachment_file_name, image.attachment.url(:original) %></h3>         
-    	</div>
-
-    	<% if image.viewable %>
-    	  <div class="viewable-info">
-	    	  <div class="viewable-type">Assigned to <%= image.viewable.class %></div>
-	    	  <div class="viewable-name"><%= link_to image.viewable.name, image.viewable.product %></div>
-	    	</div>
-	    <% end %>
-
-	    <div class="admin-buttons"></div>
-    </div>
-  <% end %>
+  <%= render :partial => 'image_list', :locals => {:images => @images} %>
 </div>

@@ -1,6 +1,6 @@
 @import jquery.Jcrop
 
-#wrapper.image-gallery
+#wrapper.image-gallery, .media-gallery-popup
   background: #e5e6e4
 
   .page-actions
@@ -32,6 +32,9 @@
       border-radius: 3px
       box-shadow: 0 1px 3px 0 rgba(0,0,0,0.33)
       width: 220px
+
+      &.selected
+        border: 2px solid #5a4a42
 
       .toolbar
         position: absolute
@@ -72,8 +75,10 @@
           margin: 5px 0
           color: #333
           font-weight: 400
-          word-wrap: break-word
           line-height: 15px
+          white-space: nowrap
+          overflow: hidden
+          text-overflow: ellipsis
 
       .viewable-info
         border-top: 1px solid #e7e7e7
@@ -93,3 +98,85 @@
 
   form
     margin-top: 20px
+
+.media-gallery-popup
+  position: fixed
+  z-index: 1000
+  top: 0
+  bottom: 0
+  left: 0 
+  right: 0
+  background: rgba(0,0,0,.6)
+
+  .content
+    background: #e5e6e4
+    width: 960px
+    margin: 0 auto
+    height: 100%
+    box-shadow: 0 0 8px rgba(0,0,0,.6)
+    position: relative
+
+    .media-gallery-header
+      position: absolute
+      background: #ffffff
+      top: 0
+      left: 0
+      right: 0
+      height: 55px
+      box-shadow: 0 0 3px rgba(0,0,0,.4)
+      padding: 10px
+
+      .pagination-wrapper
+        position: absolute
+        left: 250px
+        top: 0
+        right: 250px
+        bottom: 0
+        padding-top: 5px
+
+      .close-gallery-button
+        position: absolute
+        right: 10px
+        top: 10px
+        cursor: pointer
+
+    .images-wrapper
+      position: absolute
+      top: 70px
+      left: 0
+      right: 0
+      bottom: 0
+      overflow-y: auto
+
+.associated-image-ids
+  display: none
+
+.select-media-button
+  margin: 5px 0 20px 0
+
+.associated-images
+  .associated-image
+    display: inline-block
+    margin: 0 15px 15px 0
+    position: relative
+
+    .delete
+      position: absolute
+      right: -10px
+      top: -10px
+      width: 20px
+      height: 20px
+      background: #000000
+      border-radius: 25px
+      border: 2px solid #ffffff
+      cursor: pointer
+      display: none
+      color: #ffffff
+      text-align: center
+      box-shadow: 0 0 3px rgba(0,0,0,0.2)
+      line-height: 16px
+
+    &:hover
+      .delete
+        display: block
+

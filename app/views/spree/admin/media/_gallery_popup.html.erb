@@ -1,0 +1,20 @@
+<div class="media-gallery-popup">
+  <div class="content">
+    <div class="media-gallery-header">
+      <%= form_tag :admin_media, :method => :get do |f| %>
+        <%= text_field_tag :query, params[:query], :placeholder => t(:search) %>
+      <% end %>
+
+      <div class="pagination-wrapper">
+        <%= paginate(@images) %>
+      </div>
+
+      <div class="button close-gallery-button">&times;</div>
+    </div>
+    <div class="images-wrapper">
+      <div class="images">
+        <%= render :partial => 'image_list', :locals => {:images => images} %>
+      </div>
+    </div>
+  </div>
+</div>
