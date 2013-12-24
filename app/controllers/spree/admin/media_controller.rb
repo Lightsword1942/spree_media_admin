@@ -8,7 +8,7 @@ module Spree
       def index
       	@wrapper_class = "image-gallery"
         @images = Image.page(params[:page] || 1)
-                       .per(params[:per_page] || 15)
+                       .per(params[:per_page] || 30)
                        .where("attachment_file_name like ?", "%#{params[:query]}%")
       end
 
